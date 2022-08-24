@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'views/home_page.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -43,19 +45,6 @@ class MyApp extends StatelessWidget {
       routeInformationParser: _router.routeInformationParser,
       routeInformationProvider: _router.routeInformationProvider,
       title: 'TabiMap',
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('TabiMap'),
-      ),
     );
   }
 }
