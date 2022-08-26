@@ -13,7 +13,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('TabiMap'),
       ),
-      body: MapSample(),
+      body: const MapSample(),
     );
   }
 }
@@ -57,13 +57,11 @@ class _MapSampleState extends State<MapSample> {
 
     //現在位置を更新し続ける
     positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position? position) {
-      currentPosition = position;
-      print(position == null
-          ? 'Unknown'
-          : '${position.latitude.toString()}, ${position.longitude.toString()}');
-    });
+        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+      (Position? position) {
+        currentPosition = position;
+      },
+    );
   }
 
   @override
