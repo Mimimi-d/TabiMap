@@ -20,43 +20,36 @@ class _BottomNavState extends ConsumerState<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          widget.child,
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: ref.watch(bottomNavIndexProvider),
-              onTap: (i) {
-                ref.read(bottomNavIndexProvider.notifier).update((state) => i);
+      body: widget.child,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: ref.watch(bottomNavIndexProvider),
+        onTap: (i) {
+          ref.read(bottomNavIndexProvider.notifier).update((state) => i);
 
-                // indexに応じてGoRouterのページに遷移
-                switch (i) {
-                  case 0:
-                    context.go('/');
-                    break;
-                  case 1:
-                    context.go('/home1');
-                    break;
-                }
-              },
-              items: const [
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.map,
-                      color: Colors.grey,
-                    ),
-                    label: 'Map'),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.account_box,
-                      color: Colors.grey,
-                    ),
-                    label: 'MyPage'),
-              ],
-            ),
-          ),
+          // indexに応じてGoRouterのページに遷移
+          switch (i) {
+            case 0:
+              context.go('/');
+              break;
+            case 1:
+              context.go('/home1');
+              break;
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.map,
+                color: Colors.grey,
+              ),
+              label: 'Map'),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_box,
+                color: Colors.grey,
+              ),
+              label: 'MyPage'),
         ],
       ),
     );
