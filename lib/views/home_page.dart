@@ -68,7 +68,7 @@ class _MapSampleState extends ConsumerState<MapSample> {
             // markers: _createMarker(),
             myLocationEnabled: true,
             //TODO: 現在地に戻るボタン作成
-            // myLocationButtonEnabled: true,
+            myLocationButtonEnabled: false,
             mapToolbarEnabled: false,
             buildingsEnabled: true,
             onTap: (LatLng latLang) {},
