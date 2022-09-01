@@ -64,9 +64,11 @@ class _MapSampleState extends ConsumerState<MapSample> {
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
+            //TODO: マーカー立てる
             // markers: _createMarker(),
             myLocationEnabled: true,
-            myLocationButtonEnabled: true,
+            //TODO: 現在地に戻るボタン作成
+            // myLocationButtonEnabled: true,
             mapToolbarEnabled: false,
             buildingsEnabled: true,
             onTap: (LatLng latLang) {},
