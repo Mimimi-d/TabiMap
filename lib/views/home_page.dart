@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+final currentPositionProvider =
+    StateProvider<LatLng>((ref) => const LatLng(0, 0));
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,61 +22,56 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class MapSample extends StatefulWidget {
+//riverpod理解できてないけどとりあえずconsumerStatefulwidgetにした
+class MapSample extends ConsumerStatefulWidget {
   const MapSample({Key? key}) : super(key: key);
 
   @override
-  State<MapSample> createState() => _MapSampleState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MapSampleState();
 }
 
-class _MapSampleState extends State<MapSample> {
-  Position? currentPosition;
-  late GoogleMapController _controller;
-  late StreamSubscription<Position> positionStream;
+class _MapSampleState extends ConsumerState<MapSample> {
+  final Completer<GoogleMapController> _controller = Completer();
 
-  //初期位置
-  final CameraPosition _kGooglePlex = const CameraPosition(
-    target: LatLng(43.0686606, 141.3485613),
-    zoom: 14,
-  );
-
-  final LocationSettings locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.high, //正確性:highはAndroid(0-100m),iOS(10m)
-    distanceFilter: 100,
-  );
+  late LatLng _initialPosition;
+  late bool _loading;
 
   @override
   void initState() {
     super.initState();
+    _loading = true;
+    _getUserLocation();
+  }
 
-    //位置情報が許可されていない時に許可をリクエストする
-    Future(
-      () async {
-        LocationPermission permission = await Geolocator.checkPermission();
-        if (permission == LocationPermission.denied) {
-          await Geolocator.requestPermission();
-        }
-      },
-    );
-
-    //現在位置を更新し続ける
-    positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-      (Position? position) {
-        currentPosition = position;
-      },
-    );
+  void _getUserLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      _initialPosition = LatLng(position.latitude, position.longitude);
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      mapType: MapType.normal,
-      initialCameraPosition: _kGooglePlex,
-      myLocationEnabled: true, //現在位置をマップ上に表示
-      onMapCreated: (GoogleMapController controller) {
-        _controller = controller;
-      },
-    );
+    return _loading
+        ? const CircularProgressIndicator()
+        : GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: _initialPosition,
+              zoom: 10,
+            ),
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            //TODO: マーカー立てる
+            // markers: _createMarker(),
+            myLocationEnabled: true,
+            //TODO: 現在地に戻るボタン作成
+            myLocationButtonEnabled: false,
+            mapToolbarEnabled: false,
+            buildingsEnabled: true,
+            onTap: (LatLng latLang) {},
+          );
   }
 }
