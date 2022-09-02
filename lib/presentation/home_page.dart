@@ -18,6 +18,12 @@ class HomePage extends StatelessWidget {
         title: const Text('TabiMap'),
       ),
       body: const MapSample(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.add_location_alt,
+        ),
+        onPressed: () {},
+      ),
     );
   }
 }
