@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'views/bottom_nav.dart';
-import 'views/home_page.dart';
-import 'views/home_page1.dart';
+import '../presentation/bottom_nav.dart';
+import '../presentation/home_page.dart';
+import '../presentation/home_page1.dart';
 
 final routerProvider = Provider(
   (ref) => GoRouter(
