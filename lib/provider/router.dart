@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../presentation/bottom_nav.dart';
-import '../presentation/home_page.dart';
+import '../presentation/home/home_page.dart';
 import '../presentation/home_page1.dart';
 
 final routerProvider = Provider(
