@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:spring_button/spring_button.dart';
 
 final currentPositionProvider =
     StateProvider<LatLng>((ref) => const LatLng(0, 0));
@@ -90,10 +91,37 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    TextButton(
-                      child: const Text('Close'),
-                      onPressed: () => Navigator.of(context).pop(),
+                    const SizedBox(
+                      height: 16,
                     ),
+                    SizedBox(
+                      height: 40,
+                      width: 200,
+                      child: SpringButton(
+                        SpringButtonType.WithOpacity,
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.all(Radius.circular(24)),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              '投稿',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        onLongPress: null,
+                        onLongPressEnd: null,
+                      ),
+                    )
                   ],
                 ),
               ),
