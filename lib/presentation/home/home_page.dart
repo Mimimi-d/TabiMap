@@ -6,9 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spring_button/spring_button.dart';
 
-final currentPositionProvider =
-    StateProvider<LatLng>((ref) => const LatLng(0, 0));
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
