@@ -7,10 +7,29 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spring_button/spring_button.dart';
 
-class HomePage extends StatelessWidget {
+//titleのcontrollerをStateProviderで定義する
+final titleControllerStateProvider = StateProvider.autoDispose(
+  (ref) {
+    return TextEditingController(text: '');
+  },
+);
+
+//感想のcontrollerをStateProviderで定義する
+final titleDetailControllerStateProvider = StateProvider.autoDispose(
+  (ref) {
+    return TextEditingController(text: '');
+  },
+);
+
+class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  Future<dynamic> showAddBottomSheet(BuildContext context) {
+  Future<dynamic> showAddBottomSheet(BuildContext context, WidgetRef ref) {
+    final titelControllerProvider =
+        ref.watch(titleControllerStateProvider.state);
+    final titelDetailControllerProvider =
+        ref.watch(titleDetailControllerStateProvider.state);
+
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -27,6 +46,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 TextFormField(
+                  controller: titelControllerProvider.state,
                   decoration: InputDecoration(
                     hintText: 'タイトル',
                     hintStyle:
@@ -53,6 +73,7 @@ class HomePage extends StatelessWidget {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: titelDetailControllerProvider.state,
                   minLines: 3,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
@@ -122,6 +143,8 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     onTap: () {
+                      print(ref.watch(titleControllerStateProvider).text);
+                      print(ref.watch(titleDetailControllerStateProvider).text);
                       Navigator.of(context).pop();
                     },
                     onLongPress: null,
@@ -137,7 +160,7 @@ class HomePage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('TabiMap'),
@@ -147,7 +170,7 @@ class HomePage extends StatelessWidget {
         child: const Icon(
           Icons.add_location_alt,
         ),
-        onPressed: () => showAddBottomSheet(context),
+        onPressed: () => showAddBottomSheet(context, ref),
       ),
     );
   }
