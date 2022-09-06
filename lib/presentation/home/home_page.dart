@@ -7,28 +7,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:spring_button/spring_button.dart';
 
-//titleのcontrollerをStateProviderで定義する
-final titleControllerStateProvider = StateProvider.autoDispose(
-  (ref) {
-    return TextEditingController(text: '');
-  },
-);
-
-//感想のcontrollerをStateProviderで定義する
-final titleDetailControllerStateProvider = StateProvider.autoDispose(
-  (ref) {
-    return TextEditingController(text: '');
-  },
-);
+import '../../provider/add_marker_provider.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  Future<dynamic> showAddBottomSheet(BuildContext context, WidgetRef ref) {
+  Future<dynamic> addMarker(BuildContext context, WidgetRef ref) {
     final titelControllerProvider =
         ref.watch(titleControllerStateProvider.state);
     final titelDetailControllerProvider =
-        ref.watch(titleDetailControllerStateProvider.state);
+        ref.watch(titleDescriptionControllerStateProvider.state);
 
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -143,8 +131,12 @@ class HomePage extends ConsumerWidget {
                       ),
                     ),
                     onTap: () {
+                      // ignore: avoid_print
                       print(ref.watch(titleControllerStateProvider).text);
-                      print(ref.watch(titleDetailControllerStateProvider).text);
+                      // ignore: avoid_print
+                      print(ref
+                          .watch(titleDescriptionControllerStateProvider)
+                          .text);
                       Navigator.of(context).pop();
                     },
                     onLongPress: null,
@@ -170,7 +162,7 @@ class HomePage extends ConsumerWidget {
         child: const Icon(
           Icons.add_location_alt,
         ),
-        onPressed: () => showAddBottomSheet(context, ref),
+        onPressed: () => addMarker(context, ref),
       ),
     );
   }
