@@ -14,3 +14,6 @@ final titleDescriptionControllerStateProvider = StateProvider.autoDispose(
     return TextEditingController(text: '');
   },
 );
+
+//rateのStateProviderを定義
+final rateProvider = StateProvider((ref) => 0.0);
