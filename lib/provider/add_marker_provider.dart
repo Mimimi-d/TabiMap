@@ -9,7 +9,7 @@ final titleControllerStateProvider = StateProvider.autoDispose(
 );
 
 //感想のcontrollerをStateProviderで定義する
-final titledescriptionControllerStateProvider = StateProvider.autoDispose(
+final titleDescriptionControllerStateProvider = StateProvider.autoDispose(
   (ref) {
     return TextEditingController(text: '');
   },
