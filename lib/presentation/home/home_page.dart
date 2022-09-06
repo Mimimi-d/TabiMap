@@ -104,6 +104,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   onRatingUpdate: (rating) {
                     //rateが変わったら処理を走らす
+                    ref.read(rateProvider.state).update((state) => rating);
                   },
                 ),
                 const SizedBox(
@@ -132,11 +133,13 @@ class HomePage extends ConsumerWidget {
                     ),
                     onTap: () {
                       // ignore: avoid_print
-                      print(ref.watch(titleControllerStateProvider).text);
+                      print(ref.read(titleControllerStateProvider).text);
                       // ignore: avoid_print
                       print(ref
-                          .watch(titleDescriptionControllerStateProvider)
+                          .read(titleDescriptionControllerStateProvider)
                           .text);
+                      // ignore: avoid_print
+                      print(ref.read(rateProvider).toString());
                       Navigator.of(context).pop();
                     },
                     onLongPress: null,
