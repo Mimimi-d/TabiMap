@@ -28,7 +28,7 @@ final routerProvider = Provider(
         ),
       ),
     ],
-    //navigationbar
+    //navigation bar
     navigatorBuilder: (context, state, child) {
       return Navigator(
         onPopPage: ((route, result) => false),
