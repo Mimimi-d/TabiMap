@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 final titleControllerStateProvider = StateProvider.autoDispose(
   (ref) {
     return TextEditingController(text: '');
@@ -17,3 +19,6 @@ final titleDescriptionControllerStateProvider = StateProvider.autoDispose(
 
 //rateのStateProviderを定義
 final rateProvider = StateProvider((ref) => 0.0);
+
+// ignore: prefer_const_constructors
+final userCurrentPositionProvider = StateProvider((ref) => LatLng(0, 0));

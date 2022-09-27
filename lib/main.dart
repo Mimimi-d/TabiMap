@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'provider/router.dart';
 
-final selectedIndex = StateProvider((ref) => 0);
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
