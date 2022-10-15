@@ -20,11 +20,10 @@ MapMarker _$MapMarkerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MapMarker {
-  String? get markerId => throw _privateConstructorUsedError;
-  LatLng? get latLng => throw _privateConstructorUsedError;
+  String? get markerId => throw _privateConstructorUsedError; // LatLng? latLng,
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  int? get starRating => throw _privateConstructorUsedError;
+  double? get starRating => throw _privateConstructorUsedError;
   DateTime? get createat => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,10 +38,9 @@ abstract class $MapMarkerCopyWith<$Res> {
       _$MapMarkerCopyWithImpl<$Res>;
   $Res call(
       {String? markerId,
-      LatLng? latLng,
       String? title,
       String? description,
-      int? starRating,
+      double? starRating,
       DateTime? createat});
 }
 
@@ -57,7 +55,6 @@ class _$MapMarkerCopyWithImpl<$Res> implements $MapMarkerCopyWith<$Res> {
   @override
   $Res call({
     Object? markerId = freezed,
-    Object? latLng = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
@@ -68,10 +65,6 @@ class _$MapMarkerCopyWithImpl<$Res> implements $MapMarkerCopyWith<$Res> {
           ? _value.markerId
           : markerId // ignore: cast_nullable_to_non_nullable
               as String?,
-      latLng: latLng == freezed
-          ? _value.latLng
-          : latLng // ignore: cast_nullable_to_non_nullable
-              as LatLng?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -83,7 +76,7 @@ class _$MapMarkerCopyWithImpl<$Res> implements $MapMarkerCopyWith<$Res> {
       starRating: starRating == freezed
           ? _value.starRating
           : starRating // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       createat: createat == freezed
           ? _value.createat
           : createat // ignore: cast_nullable_to_non_nullable
@@ -100,10 +93,9 @@ abstract class _$$_MapMarkerCopyWith<$Res> implements $MapMarkerCopyWith<$Res> {
   @override
   $Res call(
       {String? markerId,
-      LatLng? latLng,
       String? title,
       String? description,
-      int? starRating,
+      double? starRating,
       DateTime? createat});
 }
 
@@ -120,7 +112,6 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? markerId = freezed,
-    Object? latLng = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
@@ -131,10 +122,6 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
           ? _value.markerId
           : markerId // ignore: cast_nullable_to_non_nullable
               as String?,
-      latLng: latLng == freezed
-          ? _value.latLng
-          : latLng // ignore: cast_nullable_to_non_nullable
-              as LatLng?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -146,7 +133,7 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
       starRating: starRating == freezed
           ? _value.starRating
           : starRating // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       createat: createat == freezed
           ? _value.createat
           : createat // ignore: cast_nullable_to_non_nullable
@@ -160,7 +147,6 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
 class _$_MapMarker implements _MapMarker {
   _$_MapMarker(
       {this.markerId,
-      this.latLng,
       this.title,
       this.description,
       this.starRating,
@@ -171,20 +157,19 @@ class _$_MapMarker implements _MapMarker {
 
   @override
   final String? markerId;
-  @override
-  final LatLng? latLng;
+// LatLng? latLng,
   @override
   final String? title;
   @override
   final String? description;
   @override
-  final int? starRating;
+  final double? starRating;
   @override
   final DateTime? createat;
 
   @override
   String toString() {
-    return 'MapMarker(markerId: $markerId, latLng: $latLng, title: $title, description: $description, starRating: $starRating, createat: $createat)';
+    return 'MapMarker(markerId: $markerId, title: $title, description: $description, starRating: $starRating, createat: $createat)';
   }
 
   @override
@@ -193,7 +178,6 @@ class _$_MapMarker implements _MapMarker {
         (other.runtimeType == runtimeType &&
             other is _$_MapMarker &&
             const DeepCollectionEquality().equals(other.markerId, markerId) &&
-            const DeepCollectionEquality().equals(other.latLng, latLng) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
@@ -207,7 +191,6 @@ class _$_MapMarker implements _MapMarker {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(markerId),
-      const DeepCollectionEquality().hash(latLng),
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(starRating),
@@ -229,10 +212,9 @@ class _$_MapMarker implements _MapMarker {
 abstract class _MapMarker implements MapMarker {
   factory _MapMarker(
       {final String? markerId,
-      final LatLng? latLng,
       final String? title,
       final String? description,
-      final int? starRating,
+      final double? starRating,
       final DateTime? createat}) = _$_MapMarker;
 
   factory _MapMarker.fromJson(Map<String, dynamic> json) =
@@ -240,14 +222,12 @@ abstract class _MapMarker implements MapMarker {
 
   @override
   String? get markerId;
-  @override
-  LatLng? get latLng;
-  @override
+  @override // LatLng? latLng,
   String? get title;
   @override
   String? get description;
   @override
-  int? get starRating;
+  double? get starRating;
   @override
   DateTime? get createat;
   @override

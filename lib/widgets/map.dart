@@ -27,7 +27,7 @@ class _MapState extends ConsumerState<Map> {
   void _getUserLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    ref.watch(userCurrentPositionProvider.state).state =
+    ref.watch(userCurrentPositionStateProvider.state).state =
         LatLng(position.latitude, position.longitude);
 
     setState(() {
@@ -37,7 +37,7 @@ class _MapState extends ConsumerState<Map> {
 
   @override
   Widget build(BuildContext context) {
-    final position = ref.watch(userCurrentPositionProvider.state).state;
+    final position = ref.watch(userCurrentPositionStateProvider.state).state;
     return _loading
         ? const CircularProgressIndicator()
         : GoogleMap(
