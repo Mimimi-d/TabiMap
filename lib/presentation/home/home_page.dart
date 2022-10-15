@@ -16,6 +16,8 @@ class HomePage extends ConsumerWidget {
         ref.watch(titleControllerStateProvider.state);
     final titleDetailControllerProvider =
         ref.watch(titleDescriptionControllerStateProvider.state);
+    final markerRepository = ref.watch(markersRepositoryProvider);
+
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -102,7 +104,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   onRatingUpdate: (rating) {
                     //rateが変わったら処理を走らす
-                    ref.read(rateProvider.state).update((state) => rating);
+                    ref.read(rateStateProvider.state).update((state) => rating);
                   },
                 ),
                 const SizedBox(
@@ -129,7 +131,7 @@ class HomePage extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    onTap: () {
+                    onTap: () async {
                       // ignore: avoid_print
                       print(ref.read(titleControllerStateProvider).text);
                       // ignore: avoid_print
@@ -137,9 +139,10 @@ class HomePage extends ConsumerWidget {
                           .read(titleDescriptionControllerStateProvider)
                           .text);
                       // ignore: avoid_print
-                      print(ref.read(rateProvider).toString());
+                      print(ref.read(rateStateProvider).toString());
                       // ignore: avoid_print
-                      print(ref.read(userCurrentPositionProvider));
+                      print(ref.read(userCurrentPositionStateProvider));
+                      await markerRepository.storeMarkerCorrection();
                       Navigator.of(context).pop();
                     },
                     onLongPress: null,
