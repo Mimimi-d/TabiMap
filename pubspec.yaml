@@ -43,6 +43,7 @@ dependencies:
   spring_button: ^2.0.0
   flutter_rating_bar: ^4.0.1
   firebase_core: ^1.24.0
+  cloud_firestore: ^3.5.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

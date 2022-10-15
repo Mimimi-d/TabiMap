@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tabimap/repository/marker_repository.dart';
 
 final titleControllerStateProvider = StateProvider.autoDispose(
   (ref) {
@@ -18,7 +19,11 @@ final titleDescriptionControllerStateProvider = StateProvider.autoDispose(
 );
 
 //rateのStateProviderを定義
-final rateProvider = StateProvider((ref) => 0.0);
+final rateStateProvider = StateProvider((ref) => 0.0);
 
 // ignore: prefer_const_constructors
-final userCurrentPositionProvider = StateProvider((ref) => LatLng(0, 0));
+final userCurrentPositionStateProvider = StateProvider((ref) => LatLng(0, 0));
+
+final markersRepositoryProvider = Provider((ref) {
+  return MarkerRepository(ref.read);
+});
