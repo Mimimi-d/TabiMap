@@ -13,7 +13,7 @@ class MapMarker with _$MapMarker {
     String? title,
     String? description,
     double? starRating,
-    DateTime? createat,
+    @TimestampConverter() DateTime? createat,
   }) = _MapMarker;
 
   factory MapMarker.fromJson(Map<String, dynamic> json) =>

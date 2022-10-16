@@ -40,10 +40,12 @@ class MarkerRepository {
     final docRef = markerCollectionRef.doc();
 
     final marker = MapMarker(
-        title: title,
-        description: titleDescription,
-        starRating: rate,
-        position: GeoPoint(position.latitude, position.longitude));
+      title: title,
+      description: titleDescription,
+      starRating: rate,
+      position: GeoPoint(position.latitude, position.longitude),
+      createat: DateTime.now(),
+    );
 
     await docRef.set(marker);
     initializeController();
