@@ -35,15 +35,15 @@ class MarkerRepository {
     final title = titleController.text;
     final titleDescription = titleDescriptionController.text;
     final rate = _read(rateStateProvider);
-    print(rate);
+    final position = _read(userCurrentPositionStateProvider);
     final markerCollectionRef = markersConverter;
     final docRef = markerCollectionRef.doc();
 
     final marker = MapMarker(
-      title: title,
-      description: titleDescription,
-      starRating: rate,
-    );
+        title: title,
+        description: titleDescription,
+        starRating: rate,
+        position: GeoPoint(position.latitude, position.longitude));
 
     await docRef.set(marker);
     initializeController();
