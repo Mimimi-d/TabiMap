@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../json_converter.dart';
 
 part 'mapmarker.freezed.dart';
 part 'mapmarker.g.dart';
@@ -9,7 +9,7 @@ part 'mapmarker.g.dart';
 class MapMarker with _$MapMarker {
   factory MapMarker({
     String? markerId,
-    // LatLng? latLng,
+    @GeoPointConverter() GeoPoint? position,
     String? title,
     String? description,
     double? starRating,
