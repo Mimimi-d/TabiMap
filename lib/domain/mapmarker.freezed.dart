@@ -20,7 +20,9 @@ MapMarker _$MapMarkerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MapMarker {
-  String? get markerId => throw _privateConstructorUsedError; // LatLng? latLng,
+  String? get markerId => throw _privateConstructorUsedError;
+  @GeoPointConverter()
+  GeoPoint? get position => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get starRating => throw _privateConstructorUsedError;
@@ -38,6 +40,7 @@ abstract class $MapMarkerCopyWith<$Res> {
       _$MapMarkerCopyWithImpl<$Res>;
   $Res call(
       {String? markerId,
+      @GeoPointConverter() GeoPoint? position,
       String? title,
       String? description,
       double? starRating,
@@ -55,6 +58,7 @@ class _$MapMarkerCopyWithImpl<$Res> implements $MapMarkerCopyWith<$Res> {
   @override
   $Res call({
     Object? markerId = freezed,
+    Object? position = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
@@ -65,6 +69,10 @@ class _$MapMarkerCopyWithImpl<$Res> implements $MapMarkerCopyWith<$Res> {
           ? _value.markerId
           : markerId // ignore: cast_nullable_to_non_nullable
               as String?,
+      position: position == freezed
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as GeoPoint?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -93,6 +101,7 @@ abstract class _$$_MapMarkerCopyWith<$Res> implements $MapMarkerCopyWith<$Res> {
   @override
   $Res call(
       {String? markerId,
+      @GeoPointConverter() GeoPoint? position,
       String? title,
       String? description,
       double? starRating,
@@ -112,6 +121,7 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? markerId = freezed,
+    Object? position = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
@@ -122,6 +132,10 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
           ? _value.markerId
           : markerId // ignore: cast_nullable_to_non_nullable
               as String?,
+      position: position == freezed
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as GeoPoint?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -147,6 +161,7 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
 class _$_MapMarker implements _MapMarker {
   _$_MapMarker(
       {this.markerId,
+      @GeoPointConverter() this.position,
       this.title,
       this.description,
       this.starRating,
@@ -157,7 +172,9 @@ class _$_MapMarker implements _MapMarker {
 
   @override
   final String? markerId;
-// LatLng? latLng,
+  @override
+  @GeoPointConverter()
+  final GeoPoint? position;
   @override
   final String? title;
   @override
@@ -169,7 +186,7 @@ class _$_MapMarker implements _MapMarker {
 
   @override
   String toString() {
-    return 'MapMarker(markerId: $markerId, title: $title, description: $description, starRating: $starRating, createat: $createat)';
+    return 'MapMarker(markerId: $markerId, position: $position, title: $title, description: $description, starRating: $starRating, createat: $createat)';
   }
 
   @override
@@ -178,6 +195,7 @@ class _$_MapMarker implements _MapMarker {
         (other.runtimeType == runtimeType &&
             other is _$_MapMarker &&
             const DeepCollectionEquality().equals(other.markerId, markerId) &&
+            const DeepCollectionEquality().equals(other.position, position) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
@@ -191,6 +209,7 @@ class _$_MapMarker implements _MapMarker {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(markerId),
+      const DeepCollectionEquality().hash(position),
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(starRating),
@@ -212,6 +231,7 @@ class _$_MapMarker implements _MapMarker {
 abstract class _MapMarker implements MapMarker {
   factory _MapMarker(
       {final String? markerId,
+      @GeoPointConverter() final GeoPoint? position,
       final String? title,
       final String? description,
       final double? starRating,
@@ -222,7 +242,10 @@ abstract class _MapMarker implements MapMarker {
 
   @override
   String? get markerId;
-  @override // LatLng? latLng,
+  @override
+  @GeoPointConverter()
+  GeoPoint? get position;
+  @override
   String? get title;
   @override
   String? get description;
