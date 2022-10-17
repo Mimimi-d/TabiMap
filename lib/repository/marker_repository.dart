@@ -47,7 +47,7 @@ class MarkerRepository {
       createat: DateTime.now(),
       reference: docRef,
     );
-    print(docRef);
+
     await docRef.set(marker);
     initializeController();
   }
