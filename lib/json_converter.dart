@@ -27,3 +27,14 @@ class TimestampConverter implements JsonConverter<DateTime?, Timestamp?> {
   Timestamp? toJson(DateTime? date) =>
       date == null ? null : Timestamp.fromDate(date);
 }
+
+class DocumentReferenceConverter
+    implements JsonConverter<DocumentReference, DocumentReference> {
+  const DocumentReferenceConverter();
+
+  @override
+  DocumentReference fromJson(DocumentReference reference) => reference;
+
+  @override
+  DocumentReference toJson(DocumentReference reference) => reference;
+}
