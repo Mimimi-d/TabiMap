@@ -8,12 +8,12 @@ part 'mapmarker.g.dart';
 @freezed
 class MapMarker with _$MapMarker {
   factory MapMarker({
-    String? markerId,
     @GeoPointConverter() GeoPoint? position,
     String? title,
     String? description,
     double? starRating,
     @TimestampConverter() DateTime? createat,
+    @DocumentReferenceConverter() DocumentReference? reference,
   }) = _MapMarker;
 
   factory MapMarker.fromJson(Map<String, dynamic> json) =>
