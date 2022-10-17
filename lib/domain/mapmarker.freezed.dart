@@ -20,12 +20,15 @@ MapMarker _$MapMarkerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MapMarker {
-  String? get markerId => throw _privateConstructorUsedError;
   @GeoPointConverter()
   GeoPoint? get position => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get starRating => throw _privateConstructorUsedError;
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference =>
+      throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime? get createat => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,12 +42,12 @@ abstract class $MapMarkerCopyWith<$Res> {
   factory $MapMarkerCopyWith(MapMarker value, $Res Function(MapMarker) then) =
       _$MapMarkerCopyWithImpl<$Res>;
   $Res call(
-      {String? markerId,
-      @GeoPointConverter() GeoPoint? position,
+      {@GeoPointConverter() GeoPoint? position,
       String? title,
       String? description,
       double? starRating,
-      DateTime? createat});
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference,
+      @TimestampConverter() DateTime? createat});
 }
 
 /// @nodoc
@@ -57,18 +60,14 @@ class _$MapMarkerCopyWithImpl<$Res> implements $MapMarkerCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? markerId = freezed,
     Object? position = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
+    Object? reference = freezed,
     Object? createat = freezed,
   }) {
     return _then(_value.copyWith(
-      markerId: markerId == freezed
-          ? _value.markerId
-          : markerId // ignore: cast_nullable_to_non_nullable
-              as String?,
       position: position == freezed
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -85,6 +84,10 @@ class _$MapMarkerCopyWithImpl<$Res> implements $MapMarkerCopyWith<$Res> {
           ? _value.starRating
           : starRating // ignore: cast_nullable_to_non_nullable
               as double?,
+      reference: reference == freezed
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
       createat: createat == freezed
           ? _value.createat
           : createat // ignore: cast_nullable_to_non_nullable
@@ -100,12 +103,12 @@ abstract class _$$_MapMarkerCopyWith<$Res> implements $MapMarkerCopyWith<$Res> {
       __$$_MapMarkerCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String? markerId,
-      @GeoPointConverter() GeoPoint? position,
+      {@GeoPointConverter() GeoPoint? position,
       String? title,
       String? description,
       double? starRating,
-      DateTime? createat});
+      @DocumentReferenceConverter() DocumentReference<Object?>? reference,
+      @TimestampConverter() DateTime? createat});
 }
 
 /// @nodoc
@@ -120,18 +123,14 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? markerId = freezed,
     Object? position = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
+    Object? reference = freezed,
     Object? createat = freezed,
   }) {
     return _then(_$_MapMarker(
-      markerId: markerId == freezed
-          ? _value.markerId
-          : markerId // ignore: cast_nullable_to_non_nullable
-              as String?,
       position: position == freezed
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -148,6 +147,10 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
           ? _value.starRating
           : starRating // ignore: cast_nullable_to_non_nullable
               as double?,
+      reference: reference == freezed
+          ? _value.reference
+          : reference // ignore: cast_nullable_to_non_nullable
+              as DocumentReference<Object?>?,
       createat: createat == freezed
           ? _value.createat
           : createat // ignore: cast_nullable_to_non_nullable
@@ -160,18 +163,16 @@ class __$$_MapMarkerCopyWithImpl<$Res> extends _$MapMarkerCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MapMarker implements _MapMarker {
   _$_MapMarker(
-      {this.markerId,
-      @GeoPointConverter() this.position,
+      {@GeoPointConverter() this.position,
       this.title,
       this.description,
       this.starRating,
-      this.createat});
+      @DocumentReferenceConverter() this.reference,
+      @TimestampConverter() this.createat});
 
   factory _$_MapMarker.fromJson(Map<String, dynamic> json) =>
       _$$_MapMarkerFromJson(json);
 
-  @override
-  final String? markerId;
   @override
   @GeoPointConverter()
   final GeoPoint? position;
@@ -182,11 +183,15 @@ class _$_MapMarker implements _MapMarker {
   @override
   final double? starRating;
   @override
+  @DocumentReferenceConverter()
+  final DocumentReference<Object?>? reference;
+  @override
+  @TimestampConverter()
   final DateTime? createat;
 
   @override
   String toString() {
-    return 'MapMarker(markerId: $markerId, position: $position, title: $title, description: $description, starRating: $starRating, createat: $createat)';
+    return 'MapMarker(position: $position, title: $title, description: $description, starRating: $starRating, reference: $reference, createat: $createat)';
   }
 
   @override
@@ -194,13 +199,13 @@ class _$_MapMarker implements _MapMarker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MapMarker &&
-            const DeepCollectionEquality().equals(other.markerId, markerId) &&
             const DeepCollectionEquality().equals(other.position, position) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality()
                 .equals(other.starRating, starRating) &&
+            const DeepCollectionEquality().equals(other.reference, reference) &&
             const DeepCollectionEquality().equals(other.createat, createat));
   }
 
@@ -208,11 +213,11 @@ class _$_MapMarker implements _MapMarker {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(markerId),
       const DeepCollectionEquality().hash(position),
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(starRating),
+      const DeepCollectionEquality().hash(reference),
       const DeepCollectionEquality().hash(createat));
 
   @JsonKey(ignore: true)
@@ -230,18 +235,16 @@ class _$_MapMarker implements _MapMarker {
 
 abstract class _MapMarker implements MapMarker {
   factory _MapMarker(
-      {final String? markerId,
-      @GeoPointConverter() final GeoPoint? position,
+      {@GeoPointConverter() final GeoPoint? position,
       final String? title,
       final String? description,
       final double? starRating,
-      final DateTime? createat}) = _$_MapMarker;
+      @DocumentReferenceConverter() final DocumentReference<Object?>? reference,
+      @TimestampConverter() final DateTime? createat}) = _$_MapMarker;
 
   factory _MapMarker.fromJson(Map<String, dynamic> json) =
       _$_MapMarker.fromJson;
 
-  @override
-  String? get markerId;
   @override
   @GeoPointConverter()
   GeoPoint? get position;
@@ -252,6 +255,10 @@ abstract class _MapMarker implements MapMarker {
   @override
   double? get starRating;
   @override
+  @DocumentReferenceConverter()
+  DocumentReference<Object?>? get reference;
+  @override
+  @TimestampConverter()
   DateTime? get createat;
   @override
   @JsonKey(ignore: true)

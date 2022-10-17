@@ -45,8 +45,9 @@ class MarkerRepository {
       starRating: rate,
       position: GeoPoint(position.latitude, position.longitude),
       createat: DateTime.now(),
+      reference: docRef,
     );
-
+    print(docRef);
     await docRef.set(marker);
     initializeController();
   }
