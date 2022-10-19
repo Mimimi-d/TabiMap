@@ -133,17 +133,21 @@ class HomePage extends ConsumerWidget {
                     ),
                     onTap: () async {
                       // ignore: avoid_print
-                      print(ref.read(titleControllerStateProvider).text);
+                      // print(ref.read(titleControllerStateProvider).text);
                       // ignore: avoid_print
-                      print(ref
-                          .read(titleDescriptionControllerStateProvider)
-                          .text);
+                      // print(ref
+                      //     .read(titleDescriptionControllerStateProvider)
+                      //     .text);
                       // ignore: avoid_print
-                      print(ref.read(rateStateProvider).toString());
+                      // print(ref.read(rateStateProvider).toString());
                       // ignore: avoid_print
-                      print(ref.read(userCurrentPositionStateProvider));
-                      await markerRepository.storeMarkerCorrection();
-                      Navigator.of(context).pop();
+                      // print(ref.read(userCurrentPositionStateProvider));
+                      await markerRepository
+                          .storeMarkerCorrection()
+                          .whenComplete(() {
+                        markerRepository.initializeController();
+                        Navigator.of(context).pop();
+                      });
                     },
                     onLongPress: null,
                     onLongPressEnd: null,
