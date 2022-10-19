@@ -9,6 +9,17 @@ import '../provider/add_marker_provider.dart';
 final firestoreProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
 
+/// markersコレクションのSnapShotを提供する StreamProvider
+final markerStreamProvider = StreamProvider<QuerySnapshot<MapMarker>>((ref) {
+  return ref
+      .read(firestoreProvider)
+      .collection('markers')
+      .withConverter<MapMarker>(
+          fromFirestore: (ds, _) => MapMarker.fromDocumentSnapshot(ds),
+          toFirestore: (marker, _) => marker.toJson())
+      .snapshots();
+});
+
 /// Marker
 class MarkerRepository {
   MarkerRepository(this._read);
@@ -49,7 +60,6 @@ class MarkerRepository {
     );
 
     await docRef.set(marker);
-    initializeController();
   }
 
   void initializeController() {
