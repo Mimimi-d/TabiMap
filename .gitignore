@@ -68,3 +68,6 @@ ios/GoogleService-Info.plist
 # Build files
 pubspec.lock
 ios/Podfile.lock
+
+.vscode
+.fvm

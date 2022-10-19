@@ -15,47 +15,41 @@ class Map extends ConsumerStatefulWidget {
 
 class _MapState extends ConsumerState<Map> {
   final Completer<GoogleMapController> _controller = Completer();
-  late bool _loading;
 
   @override
   void initState() {
     super.initState();
-    _loading = true;
     _getUserLocation();
   }
 
+  static const CameraPosition _initialPosition = CameraPosition(
+    target: LatLng(35.3122, 139.4130),
+    zoom: 9,
+  );
+
   void _getUserLocation() async {
+    // アプリを立ち上げた一回しか現在地を取得できていないっぽい？
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     ref.watch(userCurrentPositionStateProvider.state).state =
         LatLng(position.latitude, position.longitude);
 
-    setState(() {
-      _loading = false;
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final position = ref.watch(userCurrentPositionStateProvider.state).state;
-    return _loading
-        ? const CircularProgressIndicator()
-        : GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: position,
-              zoom: 10,
-            ),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            //TODO: マーカー立てる
-            // markers: _createMarker(),
-            myLocationEnabled: true,
-            //TODO: 現在地に戻るボタン作成
-            myLocationButtonEnabled: false,
-            mapToolbarEnabled: false,
-            buildingsEnabled: true,
-            onTap: (LatLng latLang) {},
-          );
+    return GoogleMap(
+      mapType: MapType.normal,
+      initialCameraPosition: _initialPosition,
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
+      //TODO: マーカー立てる
+      // markers: _createMarker(),
+      myLocationEnabled: true,
+      //TODO: 現在地に戻るボタン作成
+      myLocationButtonEnabled: true,
+    );
   }
 }

@@ -22,7 +22,8 @@ final titleDescriptionControllerStateProvider = StateProvider.autoDispose(
 final rateStateProvider = StateProvider((ref) => 0.0);
 
 // ignore: prefer_const_constructors
-final userCurrentPositionStateProvider = StateProvider((ref) => LatLng(0, 0));
+final userCurrentPositionStateProvider =
+    StateProvider((ref) => const LatLng(35, 139));
 
 final markersRepositoryProvider = Provider((ref) {
   return MarkerRepository(ref.read);
