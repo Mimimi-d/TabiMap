@@ -50,6 +50,10 @@ class _MapState extends ConsumerState<Map> {
       myLocationEnabled: true,
       //TODO: 現在地に戻るボタン作成
       myLocationButtonEnabled: true,
+      padding: const EdgeInsets.only(
+        bottom: 80.0,
+        right: 8.0,
+      ),
     );
   }
 }
