@@ -19,11 +19,19 @@ class Map extends ConsumerStatefulWidget {
 class _MapState extends ConsumerState<Map> {
   final Completer<GoogleMapController> _controller = Completer();
   Set<Marker> markerList = {};
-
+  late StreamSubscription<Position> positionStream;
   @override
   void initState() {
     super.initState();
-    _getUserLocation();
+
+    //現在位置を更新し続ける
+
+    Geolocator.getPositionStream(locationSettings: locationSettings)
+        .listen((Position? position) {
+      ref.read(userCurrentPositionStateProvider.state).state =
+          LatLng(position!.latitude, position.longitude);
+      // print(ref.read(userCurrentPositionStateProvider.state).state);
+    });
   }
 
   static const CameraPosition _initialPosition = CameraPosition(
@@ -31,15 +39,10 @@ class _MapState extends ConsumerState<Map> {
     zoom: 9,
   );
 
-  void _getUserLocation() async {
-    // アプリを立ち上げた一回しか現在地を取得できていないっぽい？
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    ref.watch(userCurrentPositionStateProvider.state).state =
-        LatLng(position.latitude, position.longitude);
-
-    setState(() {});
-  }
+  final LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high, //正確性:highはAndroid(0-100m),iOS(10m)
+    distanceFilter: 100,
+  );
 
   @override
   Widget build(BuildContext context) {
