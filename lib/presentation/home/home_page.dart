@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spring_button/spring_button.dart';
+import 'package:tabimap/widgets/card_tiles.dart';
 
 import '../../provider/add_marker_provider.dart';
 import '../../widgets/map.dart';
@@ -167,7 +168,14 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('TabiMap'),
       ),
-      body: const Map(),
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          const Map(),
+          CardTiles(),
+        ],
+      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: const Icon(
           Icons.add_location_alt,

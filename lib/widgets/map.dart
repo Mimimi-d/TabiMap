@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tabimap/provider/add_marker_provider.dart';
 
+import '../provider/card_provider.dart';
 import '../repository/marker_repository.dart';
 
 class Map extends ConsumerStatefulWidget {
@@ -18,7 +19,7 @@ class Map extends ConsumerStatefulWidget {
 
 class _MapState extends ConsumerState<Map> {
   final Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> markerList = {};
+  List<Marker> markerList = [];
   late StreamSubscription<Position> positionStream;
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _MapState extends ConsumerState<Map> {
   @override
   Widget build(BuildContext context) {
     final markerAsyncValue = ref.watch(markerStreamProvider);
+    final pageController = ref.watch(pageControllerProvider.state).state;
     return markerAsyncValue.when(
       data: (markerData) {
         final markerDocs = markerData.docs;
@@ -62,16 +64,27 @@ class _MapState extends ConsumerState<Map> {
         return GoogleMap(
           initialCameraPosition: _initialPosition,
           onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
+            ref.watch(mapControllerProvider.state).state = controller;
           },
           //TODO: マーカー立てる
-          markers: markerList,
+          markers: markerList.map((selectedMarker) {
+            return Marker(
+              markerId: MarkerId(selectedMarker.markerId.toString()),
+              position: LatLng(selectedMarker.position.latitude,
+                  selectedMarker.position.longitude),
+              onTap: () async {
+                ref.watch(indexProvider.state).state =
+                    markerList.indexWhere((marker) => marker == selectedMarker);
+                pageController.jumpToPage(ref.watch(indexProvider.state).state);
+              },
+            );
+          }).toSet(),
           myLocationEnabled: true,
           //TODO: 現在地に戻るボタン作成
           myLocationButtonEnabled: true,
           onTap: (LatLng latLang) {},
           padding: const EdgeInsets.only(
-            bottom: 80.0,
+            bottom: 80,
             right: 8.0,
           ),
         );
