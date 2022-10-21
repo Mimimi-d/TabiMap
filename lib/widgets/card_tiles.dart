@@ -145,6 +145,7 @@ class CardTiles extends ConsumerWidget {
                       style: const TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 12,
+                        color: Colors.grey,
                       ),
                     ),
                   ),
