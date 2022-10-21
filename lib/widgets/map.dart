@@ -18,7 +18,6 @@ class Map extends ConsumerStatefulWidget {
 }
 
 class _MapState extends ConsumerState<Map> {
-  final Completer<GoogleMapController> _controller = Completer();
   List<Marker> markerList = [];
   late StreamSubscription<Position> positionStream;
   @override
