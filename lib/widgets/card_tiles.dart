@@ -10,7 +10,7 @@ import '../repository/marker_repository.dart';
 
 class CardTiles extends ConsumerWidget {
   CardTiles({super.key});
-  Set<MapMarker> mapMarkerList = {};
+  final Set<MapMarker> mapMarkerList = {};
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
