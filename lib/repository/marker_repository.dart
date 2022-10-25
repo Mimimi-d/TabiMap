@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +12,26 @@ import '../provider/add_marker_provider.dart';
 /// FireStoreインスタンスをプロバイドする Provider
 final firestoreProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
+
+// deviceIdのプロバイダー
+final deviceIdProvider = FutureProvider((ref) async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+  late String deviceId;
+
+  if (Platform.isIOS) {
+    var iosDeviceInfo = await deviceInfo.iosInfo;
+    deviceId = iosDeviceInfo.identifierForVendor!;
+  } else if (Platform.isAndroid) {
+    //TODO:Androidの場合のデバイスID
+    deviceId = 'null';
+  } else {
+    deviceId = 'null';
+  }
+  return deviceId;
+});
 
 /// markersコレクションのSnapShotを提供する StreamProvider
 final markerStreamProvider = StreamProvider<QuerySnapshot<MapMarker>>((ref) {
@@ -43,12 +67,21 @@ class MarkerRepository {
 
   // MarkerDataを[marker]コレクションに格納する関数
   Future<void> storeMarkerCorrection() async {
+    late String deviceId;
     final title = titleController.text;
     final titleDescription = titleDescriptionController.text;
     final rate = _read(rateStateProvider);
     final position = _read(userCurrentPositionStateProvider);
     final markerCollectionRef = markersConverter;
     final docRef = markerCollectionRef.doc();
+
+    _read(deviceIdProvider).when(
+      data: (data) {
+        deviceId = data;
+      },
+      loading: () => const CircularProgressIndicator(),
+      error: (err, stack) => Text('Error: $err'),
+    );
 
     final marker = MapMarker(
       title: title,
@@ -57,6 +90,7 @@ class MarkerRepository {
       position: GeoPoint(position.latitude, position.longitude),
       createat: DateTime.now(),
       reference: docRef,
+      deviceId: deviceId,
     );
 
     await docRef.set(marker);
