@@ -29,6 +29,7 @@ class CardTiles extends ConsumerWidget {
       data: (markerData) {
         final markerDocs = markerData.docs;
         for (var mapMarkerData in markerDocs) {
+          // firestoreから取得したデータのうちdeviceIdが一致するものをmapMarkerListに追加
           if (mapMarkerData['deviceId'] == deviceId) {
             final mapMarker = MapMarker(
               position: mapMarkerData['position'],
