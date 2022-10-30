@@ -12,11 +12,12 @@ _$_MapMarker _$$_MapMarkerFromJson(Map<String, dynamic> json) => _$_MapMarker(
       title: json['title'] as String?,
       description: json['description'] as String?,
       starRating: (json['starRating'] as num?)?.toDouble(),
+      deviceId: json['deviceId'] as String?,
+      createat:
+          const TimestampConverter().fromJson(json['createat'] as Timestamp?),
       reference: _$JsonConverterFromJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           json['reference'], const DocumentReferenceConverter().fromJson),
-      createat:
-          const TimestampConverter().fromJson(json['createat'] as Timestamp?),
     );
 
 Map<String, dynamic> _$$_MapMarkerToJson(_$_MapMarker instance) =>
@@ -26,10 +27,11 @@ Map<String, dynamic> _$$_MapMarkerToJson(_$_MapMarker instance) =>
       'title': instance.title,
       'description': instance.description,
       'starRating': instance.starRating,
+      'deviceId': instance.deviceId,
+      'createat': const TimestampConverter().toJson(instance.createat),
       'reference': _$JsonConverterToJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           instance.reference, const DocumentReferenceConverter().toJson),
-      'createat': const TimestampConverter().toJson(instance.createat),
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
