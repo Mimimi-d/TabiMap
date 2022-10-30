@@ -16,21 +16,32 @@ class CardTiles extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final markerAsyncValue = ref.watch(markerStreamProvider);
     final mapController = ref.watch(mapControllerProvider.state).state;
+    final deviceIdAsyncValue = ref.watch(deviceIdProvider);
+    late String deviceId;
+    deviceIdAsyncValue.when(
+      data: ((data) {
+        deviceId = data;
+      }),
+      error: ((error, stackTrace) => Text('Error: $error')),
+      loading: () {},
+    );
     return markerAsyncValue.when(
       data: (markerData) {
         final markerDocs = markerData.docs;
-
-        for (var mapMakerData in markerDocs) {
-          // print(mapMakerData['createat'].toDate());
-          final mapMarker = MapMarker(
-            position: mapMakerData['position'],
-            description: mapMakerData['description'],
-            starRating: mapMakerData['starRating'],
-            title: mapMakerData['title'],
-            reference: mapMakerData['reference'],
-            createat: mapMakerData['createat'].toDate(),
-          );
-          mapMarkerList.add(mapMarker);
+        for (var mapMarkerData in markerDocs) {
+          // firestoreから取得したデータのうちdeviceIdが一致するものをmapMarkerListに追加
+          if (mapMarkerData['deviceId'] == deviceId) {
+            final mapMarker = MapMarker(
+              position: mapMarkerData['position'],
+              description: mapMarkerData['description'],
+              starRating: mapMarkerData['starRating'],
+              title: mapMarkerData['title'],
+              reference: mapMarkerData['reference'],
+              createat: mapMarkerData['createat'].toDate(),
+              deviceId: mapMarkerData['deviceId'],
+            );
+            mapMarkerList.add(mapMarker);
+          }
         }
         // print(markerList);
         return Container(
