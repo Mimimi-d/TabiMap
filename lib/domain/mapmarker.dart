@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../json_converter.dart';
 
