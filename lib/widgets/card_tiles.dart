@@ -92,9 +92,7 @@ class CardTiles extends ConsumerWidget {
                 child: IconButton(
                   icon: const Icon(Icons.clear),
                   onPressed: () {
-                    print('a');
                     markerRepository.deleteMarkerCorrection(mapMarker);
-                    print('v');
                   },
                 ),
               ),
