@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:tabimap/provider/add_marker_provider.dart';
 import 'package:tabimap/provider/card_provider.dart';
 
 import '../domain/mapmarker.dart';
@@ -17,6 +18,7 @@ class CardTiles extends ConsumerWidget {
     final markerAsyncValue = ref.watch(markerStreamProvider);
     final mapController = ref.watch(mapControllerProvider.state).state;
     final deviceIdAsyncValue = ref.watch(deviceIdProvider);
+    final markerRepository = ref.watch(markersRepositoryProvider);
     late String deviceId;
     deviceIdAsyncValue.when(
       data: ((data) {
@@ -68,7 +70,7 @@ class CardTiles extends ConsumerWidget {
               );
             },
             controller: ref.watch(pageControllerProvider.state).state,
-            children: _tiles(),
+            children: _tiles(markerRepository),
           ),
         );
       },
@@ -79,7 +81,7 @@ class CardTiles extends ConsumerWidget {
     );
   }
 
-  List<Widget> _tiles() {
+  List<Widget> _tiles(MarkerRepository markerRepository) {
     final tiles = mapMarkerList.map(
       (mapMarker) {
         return Card(
@@ -89,7 +91,11 @@ class CardTiles extends ConsumerWidget {
                 alignment: Alignment.topRight,
                 child: IconButton(
                   icon: const Icon(Icons.clear),
-                  onPressed: () {},
+                  onPressed: () {
+                    print('a');
+                    markerRepository.deleteMarkerCorrection(mapMarker);
+                    print('v');
+                  },
                 ),
               ),
               SizedBox(
