@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../presentation/bottom_nav.dart';
 import '../presentation/home/home_page.dart';
 import '../presentation/home_page1.dart';
 
@@ -28,19 +27,19 @@ final routerProvider = Provider(
         ),
       ),
     ],
-    //navigation bar
-    navigatorBuilder: (context, state, child) {
-      return Navigator(
-        onPopPage: ((route, result) => false),
-        pages: [
-          MaterialPage(
-            child: BottomNav(
-              child: child,
-            ),
-          )
-        ],
-      );
-    },
+    // //navigation bar
+    // navigatorBuilder: (context, state, child) {
+    //   return Navigator(
+    //     onPopPage: ((route, result) => false),
+    //     pages: [
+    //       MaterialPage(
+    //         child: BottomNav(
+    //           child: child,
+    //         ),
+    //       )
+    //     ],
+    //   );
+    // },
 
     //遷移ページがないなどのエラーが発生した時に、このページに行く
     errorPageBuilder: (context, state) => MaterialPage(

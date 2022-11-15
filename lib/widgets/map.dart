@@ -83,8 +83,8 @@ class _MapState extends ConsumerState<Map> {
           myLocationButtonEnabled: true,
           onTap: (LatLng latLang) {},
           padding: const EdgeInsets.only(
-            bottom: 80,
-            right: 8.0,
+            bottom: 120,
+            right: 6.0,
           ),
         );
       },
