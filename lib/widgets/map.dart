@@ -48,16 +48,27 @@ class _MapState extends ConsumerState<Map> {
   Widget build(BuildContext context) {
     final markerAsyncValue = ref.watch(markerStreamProvider);
     final pageController = ref.watch(pageControllerProvider.state).state;
+    final deviceIdAsyncValue = ref.watch(deviceIdProvider);
+    late String deviceId;
+    deviceIdAsyncValue.when(
+      data: ((data) {
+        deviceId = data;
+      }),
+      error: ((error, stackTrace) => Text('Error: $error')),
+      loading: () {},
+    );
     return markerAsyncValue.when(
       data: (markerData) {
         final markerDocs = markerData.docs;
         for (var mapMarker in markerDocs) {
-          final geoPoint = mapMarker['position'] as GeoPoint;
-          final marker = Marker(
-            markerId: MarkerId(mapMarker['reference'].id),
-            position: LatLng(geoPoint.latitude, geoPoint.longitude),
-          );
-          markerList.add(marker);
+          if (mapMarker['deviceId'] == deviceId) {
+            final geoPoint = mapMarker['position'] as GeoPoint;
+            final marker = Marker(
+              markerId: MarkerId(mapMarker['reference'].id),
+              position: LatLng(geoPoint.latitude, geoPoint.longitude),
+            );
+            markerList.add(marker);
+          }
         }
         // print(markerList);
         return GoogleMap(
