@@ -34,7 +34,8 @@ final deviceIdProvider = FutureProvider((ref) async {
 });
 
 /// markersコレクションのSnapShotを提供する StreamProvider
-final markerStreamProvider = StreamProvider<QuerySnapshot<MapMarker>>((ref) {
+final markerStreamProvider =
+    StreamProvider.autoDispose<QuerySnapshot<MapMarker>>((ref) {
   return ref
       .read(firestoreProvider)
       .collection('markers')
@@ -99,5 +100,9 @@ class MarkerRepository {
   void initializeController() {
     titleController.clear();
     titleDescriptionController.clear();
+  }
+
+  Future<void> deleteMarkerCorrection(MapMarker mapMarker) async {
+    await markersConverter.doc(mapMarker.reference!.id).delete();
   }
 }

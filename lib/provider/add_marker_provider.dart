@@ -5,14 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tabimap/repository/marker_repository.dart';
 
-final titleControllerStateProvider = StateProvider.autoDispose(
+final titleControllerStateProvider = StateProvider(
   (ref) {
     return TextEditingController(text: '');
   },
 );
 
 //感想のcontrollerをStateProviderで定義する
-final titleDescriptionControllerStateProvider = StateProvider.autoDispose(
+final titleDescriptionControllerStateProvider = StateProvider(
   (ref) {
     return TextEditingController(text: '');
   },
