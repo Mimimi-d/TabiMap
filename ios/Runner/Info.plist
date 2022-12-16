@@ -46,6 +46,6 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>メモを取るときに位置情報を取得します。位置情報を使用して、地図にメモした場所を表示する目的で使用します。</string>
 </dict>
 </plist>
