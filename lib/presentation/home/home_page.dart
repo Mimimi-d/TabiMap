@@ -20,6 +20,7 @@ class HomePage extends ConsumerWidget {
     final markerRepository = ref.watch(markersRepositoryProvider);
 
     return showModalBottomSheet(
+      isDismissible: false,
       isScrollControlled: true,
       context: context,
       shape: const RoundedRectangleBorder(
