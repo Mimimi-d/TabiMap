@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tabimap/provider/add_marker_provider.dart';
 
+import '../domain/mapmarker.dart';
 import '../provider/card_provider.dart';
 import '../repository/marker_repository.dart';
 
@@ -48,60 +49,49 @@ class _MapState extends ConsumerState<Map> {
   Widget build(BuildContext context) {
     final markerAsyncValue = ref.watch(markerStreamProvider);
     final pageController = ref.watch(pageControllerProvider.state).state;
-    final deviceIdAsyncValue = ref.watch(deviceIdProvider);
-    late String deviceId;
-    deviceIdAsyncValue.when(
-      data: ((data) {
-        deviceId = data;
+    final List<Marker> markerList = markerAsyncValue.when(
+      data: ((markerData) {
+        final mapMarkerList = markerData.docs
+            .map((doc) => MapMarker.fromDocumentSnapshot(doc))
+            .toList();
+        final markerList = mapMarkerList.map((mapMarker) {
+          final geoPoint = mapMarker.position as GeoPoint;
+          final marker = Marker(
+            markerId: MarkerId(mapMarker.reference!.id),
+            position: LatLng(geoPoint.latitude, geoPoint.longitude),
+          );
+          return marker;
+        }).toList();
+
+        return markerList;
       }),
-      error: ((error, stackTrace) => Text('Error: $error')),
-      loading: () {},
+      error: ((error, stackTrace) => []),
+      loading: (() => []),
     );
-    return markerAsyncValue.when(
-      data: (markerData) {
-        final markerDocs = markerData.docs;
-        for (var mapMarker in markerDocs) {
-          if (mapMarker['deviceId'] == deviceId) {
-            final geoPoint = mapMarker['position'] as GeoPoint;
-            final marker = Marker(
-              markerId: MarkerId(mapMarker['reference'].id),
-              position: LatLng(geoPoint.latitude, geoPoint.longitude),
-            );
-            markerList.add(marker);
-          }
-        }
-        // print(markerList);
-        return GoogleMap(
-          initialCameraPosition: _initialPosition,
-          onMapCreated: (GoogleMapController controller) {
-            ref.watch(mapControllerProvider.state).state = controller;
-          },
-          //TODO: マーカー立てる
-          markers: markerList.map((selectedMarker) {
-            return Marker(
-              markerId: MarkerId(selectedMarker.markerId.toString()),
-              position: LatLng(selectedMarker.position.latitude,
-                  selectedMarker.position.longitude),
-              onTap: () async {
-                ref.watch(indexProvider.state).state =
-                    markerList.indexWhere((marker) => marker == selectedMarker);
-                pageController.jumpToPage(ref.watch(indexProvider.state).state);
-              },
-            );
-          }).toSet(),
-          myLocationEnabled: true,
-          //TODO: 現在地に戻るボタン作成
-          myLocationButtonEnabled: true,
-          onTap: (LatLng latLang) {},
-          padding: const EdgeInsets.only(
-            bottom: 120,
-            right: 6.0,
-          ),
-        );
+
+    return GoogleMap(
+      initialCameraPosition: _initialPosition,
+      onMapCreated: (GoogleMapController controller) {
+        ref.watch(mapControllerProvider.state).state = controller;
       },
-      error: ((error, stackTrace) => Text('Error: $error')),
-      loading: () => Stack(
-        children: const [Center(child: CircularProgressIndicator())],
+      markers: markerList.map((selectedMarker) {
+        return Marker(
+          markerId: MarkerId(selectedMarker.markerId.toString()),
+          position: LatLng(selectedMarker.position.latitude,
+              selectedMarker.position.longitude),
+          onTap: () async {
+            ref.watch(indexProvider.state).state =
+                markerList.indexWhere((marker) => marker == selectedMarker);
+            pageController.jumpToPage(ref.watch(indexProvider.state).state);
+          },
+        );
+      }).toSet(),
+      myLocationEnabled: true,
+      myLocationButtonEnabled: true,
+      onTap: (LatLng latLang) {},
+      padding: const EdgeInsets.only(
+        bottom: 120,
+        right: 6.0,
       ),
     );
   }

@@ -10,53 +10,29 @@ import '../domain/mapmarker.dart';
 import '../repository/marker_repository.dart';
 
 class CardTiles extends ConsumerWidget {
-  CardTiles({super.key});
-  final Set<MapMarker> mapMarkerList = {};
+  const CardTiles({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final markerAsyncValue = ref.watch(markerStreamProvider);
     final mapController = ref.watch(mapControllerProvider.state).state;
-    final deviceIdAsyncValue = ref.watch(deviceIdProvider);
     final markerRepository = ref.watch(markersRepositoryProvider);
-    late String deviceId;
-    deviceIdAsyncValue.when(
-      data: ((data) {
-        deviceId = data;
-      }),
-      error: ((error, stackTrace) => Text('Error: $error')),
-      loading: () {},
-    );
+
     return markerAsyncValue.when(
       data: (markerData) {
-        final markerDocs = markerData.docs;
-        for (var mapMarkerData in markerDocs) {
-          // firestoreから取得したデータのうちdeviceIdが一致するものをmapMarkerListに追加
-          if (mapMarkerData['deviceId'] == deviceId) {
-            final mapMarker = MapMarker(
-              position: mapMarkerData['position'],
-              description: mapMarkerData['description'],
-              starRating: mapMarkerData['starRating'],
-              title: mapMarkerData['title'],
-              reference: mapMarkerData['reference'],
-              createat: mapMarkerData['createat'].toDate(),
-              deviceId: mapMarkerData['deviceId'],
-            );
-            mapMarkerList.add(mapMarker);
-          }
-        }
-        // print(markerList);
+        final mapMarkerList = markerData.docs
+            .map((doc) => MapMarker.fromDocumentSnapshot(doc))
+            .toList();
+
         return Container(
           margin: const EdgeInsets.only(top: 16),
           height: 220,
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
           child: PageView(
             onPageChanged: (int index) async {
-              //スワイプ後のページのお店を取得
               final selectedMapMarker = mapMarkerList.elementAt(index);
               //現在のズームレベルを取得
               final zoomLevel = await mapController!.getZoomLevel();
-              //スワイプ後のお店の座標までカメラを移動
               mapController.animateCamera(
                 CameraUpdate.newCameraPosition(
                   CameraPosition(
@@ -70,7 +46,7 @@ class CardTiles extends ConsumerWidget {
               );
             },
             controller: ref.watch(pageControllerProvider.state).state,
-            children: _tiles(markerRepository),
+            children: _tiles(mapMarkerList, markerRepository),
           ),
         );
       },
@@ -81,7 +57,8 @@ class CardTiles extends ConsumerWidget {
     );
   }
 
-  List<Widget> _tiles(MarkerRepository markerRepository) {
+  List<Widget> _tiles(
+      List<MapMarker> mapMarkerList, MarkerRepository markerRepository) {
     final tiles = mapMarkerList.map(
       (mapMarker) {
         return Card(
