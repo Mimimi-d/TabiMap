@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -44,7 +43,6 @@ final markerStreamProvider =
         loading: () => '',
         error: (err, stack) => 'Error: $err',
       );
-  log(deviceId);
   return ref
       .read(firestoreProvider)
       .collection('markers')
