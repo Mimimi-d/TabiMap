@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -35,13 +36,19 @@ final deviceIdProvider = FutureProvider((ref) async {
 
 /// markersコレクションのSnapShotを提供する StreamProvider
 final markerStreamProvider =
-    StreamProvider.autoDispose<QuerySnapshot<MapMarker>>((ref) {
+    StreamProvider<QuerySnapshot<Map<String, dynamic>>>((ref) {
+  late final String deviceId = ref.watch(deviceIdProvider).when(
+        data: (data) {
+          return data;
+        },
+        loading: () => '',
+        error: (err, stack) => 'Error: $err',
+      );
+  log(deviceId);
   return ref
       .read(firestoreProvider)
       .collection('markers')
-      .withConverter<MapMarker>(
-          fromFirestore: (ds, _) => MapMarker.fromDocumentSnapshot(ds),
-          toFirestore: (marker, _) => marker.toJson())
+      .where('deviceId', isEqualTo: deviceId)
       .snapshots();
 });
 
@@ -62,27 +69,26 @@ class MarkerRepository {
       fromFirestore: (ds, _) => MapMarker.fromDocumentSnapshot(ds),
       toFirestore: (marker, _) => marker.toJson());
 
+  late final String deviceId = _read(deviceIdProvider).when(
+    data: (data) {
+      return data;
+    },
+    loading: () => '',
+    error: (err, stack) => 'Error: $err',
+  );
+
   // TODO:MapMarker情報を更新する
 
   // TODO:MapMarker情報を削除する
 
   // MarkerDataを[marker]コレクションに格納する関数
   Future<void> storeMarkerCorrection() async {
-    late String deviceId;
     final title = titleController.text;
     final titleDescription = titleDescriptionController.text;
     final rate = _read(rateStateProvider);
     final position = _read(userCurrentPositionStateProvider);
     final markerCollectionRef = markersConverter;
     final docRef = markerCollectionRef.doc();
-
-    _read(deviceIdProvider).when(
-      data: (data) {
-        deviceId = data;
-      },
-      loading: () => const CircularProgressIndicator(),
-      error: (err, stack) => Text('Error: $err'),
-    );
 
     final marker = MapMarker(
       title: title,
