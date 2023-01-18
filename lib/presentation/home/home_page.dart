@@ -137,16 +137,6 @@ class HomePage extends ConsumerWidget {
                         ),
                       ),
                       onTap: () async {
-                        // ignore: avoid_print
-                        // print(ref.read(titleControllerStateProvider).text);
-                        // ignore: avoid_print
-                        // print(ref
-                        //     .read(titleDescriptionControllerStateProvider)
-                        //     .text);
-                        // ignore: avoid_print
-                        // print(ref.read(rateStateProvider).toString());
-                        // ignore: avoid_print
-                        // print(ref.read(userCurrentPositionStateProvider));
                         await markerRepository
                             .storeMarkerCorrection()
                             .whenComplete(() {
