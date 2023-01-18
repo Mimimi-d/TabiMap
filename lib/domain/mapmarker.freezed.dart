@@ -20,14 +20,13 @@ MapMarker _$MapMarkerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MapMarker {
-  @GeoPointConverter()
-  GeoPoint? get position => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get starRating => throw _privateConstructorUsedError;
   String? get deviceId => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime? get createat => throw _privateConstructorUsedError;
+  MyGeo? get position => throw _privateConstructorUsedError;
   @DocumentReferenceConverter()
   DocumentReference<Object?>? get reference =>
       throw _privateConstructorUsedError;
@@ -44,13 +43,15 @@ abstract class $MapMarkerCopyWith<$Res> {
       _$MapMarkerCopyWithImpl<$Res, MapMarker>;
   @useResult
   $Res call(
-      {@GeoPointConverter() GeoPoint? position,
-      String? title,
+      {String? title,
       String? description,
       double? starRating,
       String? deviceId,
       @TimestampConverter() DateTime? createat,
+      MyGeo? position,
       @DocumentReferenceConverter() DocumentReference<Object?>? reference});
+
+  $MyGeoCopyWith<$Res>? get position;
 }
 
 /// @nodoc
@@ -66,19 +67,15 @@ class _$MapMarkerCopyWithImpl<$Res, $Val extends MapMarker>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? position = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
     Object? deviceId = freezed,
     Object? createat = freezed,
+    Object? position = freezed,
     Object? reference = freezed,
   }) {
     return _then(_value.copyWith(
-      position: freezed == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -99,11 +96,27 @@ class _$MapMarkerCopyWithImpl<$Res, $Val extends MapMarker>
           ? _value.createat
           : createat // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as MyGeo?,
       reference: freezed == reference
           ? _value.reference
           : reference // ignore: cast_nullable_to_non_nullable
               as DocumentReference<Object?>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MyGeoCopyWith<$Res>? get position {
+    if (_value.position == null) {
+      return null;
+    }
+
+    return $MyGeoCopyWith<$Res>(_value.position!, (value) {
+      return _then(_value.copyWith(position: value) as $Val);
+    });
   }
 }
 
@@ -115,13 +128,16 @@ abstract class _$$_MapMarkerCopyWith<$Res> implements $MapMarkerCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@GeoPointConverter() GeoPoint? position,
-      String? title,
+      {String? title,
       String? description,
       double? starRating,
       String? deviceId,
       @TimestampConverter() DateTime? createat,
+      MyGeo? position,
       @DocumentReferenceConverter() DocumentReference<Object?>? reference});
+
+  @override
+  $MyGeoCopyWith<$Res>? get position;
 }
 
 /// @nodoc
@@ -135,19 +151,15 @@ class __$$_MapMarkerCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? position = freezed,
     Object? title = freezed,
     Object? description = freezed,
     Object? starRating = freezed,
     Object? deviceId = freezed,
     Object? createat = freezed,
+    Object? position = freezed,
     Object? reference = freezed,
   }) {
     return _then(_$_MapMarker(
-      position: freezed == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as GeoPoint?,
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -168,6 +180,10 @@ class __$$_MapMarkerCopyWithImpl<$Res>
           ? _value.createat
           : createat // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as MyGeo?,
       reference: freezed == reference
           ? _value.reference
           : reference // ignore: cast_nullable_to_non_nullable
@@ -177,23 +193,21 @@ class __$$_MapMarkerCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_MapMarker implements _MapMarker {
   _$_MapMarker(
-      {@GeoPointConverter() this.position,
-      this.title,
+      {this.title,
       this.description,
       this.starRating,
       this.deviceId,
       @TimestampConverter() this.createat,
+      this.position,
       @DocumentReferenceConverter() this.reference});
 
   factory _$_MapMarker.fromJson(Map<String, dynamic> json) =>
       _$$_MapMarkerFromJson(json);
 
-  @override
-  @GeoPointConverter()
-  final GeoPoint? position;
   @override
   final String? title;
   @override
@@ -206,12 +220,14 @@ class _$_MapMarker implements _MapMarker {
   @TimestampConverter()
   final DateTime? createat;
   @override
+  final MyGeo? position;
+  @override
   @DocumentReferenceConverter()
   final DocumentReference<Object?>? reference;
 
   @override
   String toString() {
-    return 'MapMarker(position: $position, title: $title, description: $description, starRating: $starRating, deviceId: $deviceId, createat: $createat, reference: $reference)';
+    return 'MapMarker(title: $title, description: $description, starRating: $starRating, deviceId: $deviceId, createat: $createat, position: $position, reference: $reference)';
   }
 
   @override
@@ -219,8 +235,6 @@ class _$_MapMarker implements _MapMarker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MapMarker &&
-            (identical(other.position, position) ||
-                other.position == position) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -230,14 +244,16 @@ class _$_MapMarker implements _MapMarker {
                 other.deviceId == deviceId) &&
             (identical(other.createat, createat) ||
                 other.createat == createat) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
             (identical(other.reference, reference) ||
                 other.reference == reference));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, position, title, description,
-      starRating, deviceId, createat, reference);
+  int get hashCode => Object.hash(runtimeType, title, description, starRating,
+      deviceId, createat, position, reference);
 
   @JsonKey(ignore: true)
   @override
@@ -255,23 +271,19 @@ class _$_MapMarker implements _MapMarker {
 
 abstract class _MapMarker implements MapMarker {
   factory _MapMarker(
-      {@GeoPointConverter()
-          final GeoPoint? position,
-      final String? title,
+      {final String? title,
       final String? description,
       final double? starRating,
       final String? deviceId,
       @TimestampConverter()
           final DateTime? createat,
+      final MyGeo? position,
       @DocumentReferenceConverter()
           final DocumentReference<Object?>? reference}) = _$_MapMarker;
 
   factory _MapMarker.fromJson(Map<String, dynamic> json) =
       _$_MapMarker.fromJson;
 
-  @override
-  @GeoPointConverter()
-  GeoPoint? get position;
   @override
   String? get title;
   @override
@@ -283,6 +295,8 @@ abstract class _MapMarker implements MapMarker {
   @override
   @TimestampConverter()
   DateTime? get createat;
+  @override
+  MyGeo? get position;
   @override
   @DocumentReferenceConverter()
   DocumentReference<Object?>? get reference;

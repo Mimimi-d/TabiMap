@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:tabimap/domain/mygeo.dart';
 import '../json_converter.dart';
 
 part 'mapmarker.freezed.dart';
@@ -7,13 +9,14 @@ part 'mapmarker.g.dart';
 
 @freezed
 class MapMarker with _$MapMarker {
+  @JsonSerializable(explicitToJson: true)
   factory MapMarker({
-    @GeoPointConverter() GeoPoint? position,
     String? title,
     String? description,
     double? starRating,
     String? deviceId,
     @TimestampConverter() DateTime? createat,
+    MyGeo? position,
     @DocumentReferenceConverter() DocumentReference? reference,
   }) = _MapMarker;
 
@@ -21,7 +24,8 @@ class MapMarker with _$MapMarker {
       _$MapMarkerFromJson(json);
 
   factory MapMarker.fromDocumentSnapshot(DocumentSnapshot ds) {
-    final data = Map<String, dynamic>.from(ds.data()! as Map);
+    final Map<String, dynamic> data =
+        Map<String, dynamic>.from(ds.data()! as Map);
     return MapMarker.fromJson(data);
   }
 
