@@ -2,6 +2,7 @@
 // https://github.com/mono0926/flutter_firestore_ref
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 class GeoPointConverter implements JsonConverter<GeoPoint, GeoPoint> {
@@ -37,4 +38,28 @@ class DocumentReferenceConverter
 
   @override
   DocumentReference toJson(DocumentReference reference) => reference;
+}
+
+class GeoFirePointConverter
+    implements JsonConverter<GeoFirePoint, Map<String, Object>> {
+  const GeoFirePointConverter();
+
+  @override
+  GeoFirePoint fromJson(Map<String, Object> json) {
+    final geoPoint = json['geopoint'] as GeoPoint;
+    final geoFire = Geoflutterfire();
+
+    final GeoFirePoint geoFirePoint = geoFire.point(
+        latitude: geoPoint.latitude, longitude: geoPoint.longitude);
+    return geoFirePoint;
+  }
+
+  @override
+  Map<String, Object> toJson(GeoFirePoint geofirepoint) {
+    final geoPoint = geofirepoint.geoPoint;
+    return {
+      'geohash': geofirepoint.hash,
+      'geopoint': geoPoint,
+    };
+  }
 }
