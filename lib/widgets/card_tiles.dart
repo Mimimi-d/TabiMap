@@ -37,8 +37,8 @@ class CardTiles extends ConsumerWidget {
                 CameraUpdate.newCameraPosition(
                   CameraPosition(
                     target: LatLng(
-                      selectedMapMarker.position!.latitude,
-                      selectedMapMarker.position!.longitude,
+                      selectedMapMarker.position!.geopoint!.latitude,
+                      selectedMapMarker.position!.geopoint!.longitude,
                     ),
                     zoom: zoomLevel,
                   ),

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -55,10 +54,11 @@ class _MapState extends ConsumerState<Map> {
             .map((doc) => MapMarker.fromDocumentSnapshot(doc))
             .toList();
         final markerList = mapMarkerList.map((mapMarker) {
-          final geoPoint = mapMarker.position as GeoPoint;
+          final position = mapMarker.position;
           final marker = Marker(
             markerId: MarkerId(mapMarker.reference!.id),
-            position: LatLng(geoPoint.latitude, geoPoint.longitude),
+            position: LatLng(
+                position!.geopoint!.latitude, position.geopoint!.longitude),
           );
           return marker;
         }).toList();
