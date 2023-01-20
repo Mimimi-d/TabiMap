@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:tabimap/provider/add_marker_provider.dart';
 import 'package:tabimap/provider/card_provider.dart';
 
 import '../domain/mapmarker.dart';
+import '../provider/map_marker_provider.dart';
 import '../repository/marker_repository.dart';
 
 class CardTiles extends ConsumerWidget {
@@ -14,45 +14,21 @@ class CardTiles extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final markerAsyncValue = ref.watch(markerStreamProvider);
-    final mapController = ref.watch(mapControllerProvider.state).state;
+    final mapMarkerList = ref.watch(mapMarkersListProvider);
+
     final markerRepository = ref.watch(markersRepositoryProvider);
 
-    return markerAsyncValue.when(
-      data: (markerData) {
-        final mapMarkerList = markerData.docs
-            .map((doc) => MapMarker.fromDocumentSnapshot(doc))
-            .toList();
-
-        return Container(
-          margin: const EdgeInsets.only(top: 16),
-          height: 220,
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-          child: PageView(
-            onPageChanged: (int index) async {
-              final selectedMapMarker = mapMarkerList.elementAt(index);
-              //現在のズームレベルを取得
-              final zoomLevel = await mapController!.getZoomLevel();
-              mapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    target: LatLng(
-                      selectedMapMarker.position!.latitude,
-                      selectedMapMarker.position!.longitude,
-                    ),
-                    zoom: zoomLevel,
-                  ),
-                ),
-              );
-            },
-            controller: ref.watch(pageControllerProvider.state).state,
-            children: _tiles(mapMarkerList, markerRepository),
-          ),
-        );
-      },
-      error: ((error, stackTrace) => Text('Error: $error')),
-      loading: () => Stack(
-        children: const [Center(child: CircularProgressIndicator())],
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      height: 220,
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+      child: PageView(
+        onPageChanged: (int index) async {
+          //現在のズームレベルを取得
+          ref.read(onPageChangedProvider)(index);
+        },
+        controller: ref.watch(pageControllerProvider.state).state,
+        children: _tiles(mapMarkerList, markerRepository),
       ),
     );
   }

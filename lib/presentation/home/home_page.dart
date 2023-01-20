@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spring_button/spring_button.dart';
-import 'package:tabimap/widgets/card_tiles.dart';
 
 import '../../provider/add_marker_provider.dart';
+import '../../widgets/card_tiles.dart';
 import '../../widgets/map.dart';
 
 class HomePage extends ConsumerWidget {
@@ -137,16 +137,6 @@ class HomePage extends ConsumerWidget {
                         ),
                       ),
                       onTap: () async {
-                        // ignore: avoid_print
-                        // print(ref.read(titleControllerStateProvider).text);
-                        // ignore: avoid_print
-                        // print(ref
-                        //     .read(titleDescriptionControllerStateProvider)
-                        //     .text);
-                        // ignore: avoid_print
-                        // print(ref.read(rateStateProvider).toString());
-                        // ignore: avoid_print
-                        // print(ref.read(userCurrentPositionStateProvider));
                         await markerRepository
                             .storeMarkerCorrection()
                             .whenComplete(() {
@@ -175,8 +165,8 @@ class HomePage extends ConsumerWidget {
       ),
       body: Stack(
         alignment: Alignment.topCenter,
-        children: [
-          const Map(),
+        children: const [
+          Map(),
           CardTiles(),
         ],
       ),
