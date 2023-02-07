@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tabimap/domain/mapmarker.dart';
-import 'package:tabimap/presentation/home/card_edit_page.dart';
 
 import '../presentation/home/home_page.dart';
 import '../presentation/home_page1.dart';
@@ -26,14 +24,6 @@ final routerProvider = Provider(
         pageBuilder: (context, state) => MaterialPage(
           key: state.pageKey,
           child: const HomePage1(),
-        ),
-      ),
-      GoRoute(
-        name: 'edit',
-        path: '/edit',
-        pageBuilder: (context, state) => MaterialPage(
-          key: state.pageKey,
-          child: CardEditPage(mapMarker: state.extra! as MapMarker),
         ),
       ),
     ],

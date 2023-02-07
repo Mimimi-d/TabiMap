@@ -61,7 +61,9 @@ macos/Flutter/GeneratedPluginRegistrant.swift
 ios/Runner/AppDelegate.swift
 ios/firebase_app_id_file.json
 
-
+# Freezed
+*.freezed.dart
+*.g.dart
 
 # Build files
 pubspec.lock
