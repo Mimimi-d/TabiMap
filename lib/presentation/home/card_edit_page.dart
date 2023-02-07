@@ -3,19 +3,25 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spring_button/spring_button.dart';
+import 'package:tabimap/domain/mapmarker.dart';
 
 import '../../provider/add_marker_provider.dart';
 
 class CardEditPage extends ConsumerWidget {
-  const CardEditPage({super.key});
-
+  const CardEditPage({super.key, required this.mapMarker});
+  final MapMarker mapMarker;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final titleControllerProvider =
         ref.watch(titleControllerStateProvider.state);
     final titleDetailControllerProvider =
         ref.watch(titleDescriptionControllerStateProvider.state);
+
+    titleControllerProvider.state.text = mapMarker.title!;
+    titleDetailControllerProvider.state.text = mapMarker.description!;
+
     final markerRepository = ref.watch(markersRepositoryProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('TabiMap'),
@@ -36,8 +42,6 @@ class CardEditPage extends ConsumerWidget {
               TextFormField(
                 controller: titleControllerProvider.state,
                 decoration: InputDecoration(
-                  hintText: 'タイトル',
-                  hintStyle: const TextStyle(fontSize: 16, color: Colors.black),
                   fillColor: Colors.grey[300],
                   filled: true,
                   border: OutlineInputBorder(
@@ -66,8 +70,6 @@ class CardEditPage extends ConsumerWidget {
                 maxLines: null,
                 textInputAction: TextInputAction.newline,
                 decoration: InputDecoration(
-                  hintText: '感想',
-                  hintStyle: const TextStyle(fontSize: 16, color: Colors.black),
                   fillColor: Colors.grey[300],
                   filled: true,
                   border: OutlineInputBorder(
@@ -90,7 +92,7 @@ class CardEditPage extends ConsumerWidget {
                 height: 16,
               ),
               RatingBar.builder(
-                initialRating: 0,
+                initialRating: mapMarker.starRating!.toDouble(),
                 minRating: 0,
                 direction: Axis.horizontal,
                 allowHalfRating: true,
@@ -120,7 +122,7 @@ class CardEditPage extends ConsumerWidget {
                     ),
                     child: const Center(
                       child: Text(
-                        '投稿',
+                        '編集',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -129,7 +131,10 @@ class CardEditPage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    markerRepository.updateMarkerCorrection(mapMarker);
+                    context.pop();
+                  },
                   onLongPress: null,
                   onLongPressEnd: null,
                 ),
@@ -137,14 +142,6 @@ class CardEditPage extends ConsumerWidget {
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          context.pop();
-        },
       ),
     );
   }

@@ -64,8 +64,8 @@ class CardTiles extends ConsumerWidget {
       (mapMarker) {
         return InkWell(
           onTap: () {
-            //　編集画面へj
-            context.push('/edit');
+            //　編集画面へ
+            context.push('/edit', extra: mapMarker);
           },
           child: Card(
             child: Stack(
