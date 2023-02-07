@@ -115,20 +115,5 @@ class MarkerRepository {
 
   Future<void> deleteMarkerCorrection(MapMarker mapMarker) async {
     await markersConverter.doc(mapMarker.reference!.id).delete();
-    initializeController();
-  }
-
-  Future<void> updateMarkerCorrection(MapMarker mapMarker) async {
-    final title = titleController.text;
-    final titleDescription = titleDescriptionController.text;
-    final rate = _read(rateStateProvider);
-
-    await markersConverter.doc(mapMarker.reference!.id).update({
-      "title": title,
-      "description": titleDescription,
-      "starRating": rate,
-      "createat": DateTime.now(),
-    });
-    initializeController();
   }
 }
