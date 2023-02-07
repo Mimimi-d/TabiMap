@@ -175,8 +175,8 @@ class HomePage extends ConsumerWidget {
       ),
       body: Stack(
         alignment: Alignment.topCenter,
-        children: [
-          const Map(),
+        children: const [
+          Map(),
           CardTiles(),
         ],
       ),
