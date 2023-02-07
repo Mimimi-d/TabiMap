@@ -20,7 +20,3 @@ jobs:
         run: flutter analyze
       - name: Test
         run: flutter test
-analyzer:
-  exclude:
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
