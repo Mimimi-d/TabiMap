@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:tabimap/domain/mygeo.dart';
 
 import '../domain/mapmarker.dart';
 import '../provider/add_marker_provider.dart';
@@ -77,22 +80,26 @@ class MarkerRepository {
 
   // TODO:MapMarker情報を更新する
 
-  // TODO:MapMarker情報を削除する
-
   // MarkerDataを[marker]コレクションに格納する関数
   Future<void> storeMarkerCorrection() async {
+    final geo = Geoflutterfire();
     final title = titleController.text;
     final titleDescription = titleDescriptionController.text;
     final rate = _read(rateStateProvider);
-    final position = _read(userCurrentPositionStateProvider);
+    final currentPosition = await Geolocator.getCurrentPosition();
     final markerCollectionRef = markersConverter;
     final docRef = markerCollectionRef.doc();
+    final point = geo.point(
+        latitude: currentPosition.latitude,
+        longitude: currentPosition.longitude);
+    final geopoint = GeoPoint(point.latitude, point.longitude);
+    final geohash = point.hash;
 
     final marker = MapMarker(
       title: title,
       description: titleDescription,
       starRating: rate,
-      position: GeoPoint(position.latitude, position.longitude),
+      position: MyGeo(geohash: geohash, geopoint: geopoint),
       createat: DateTime.now(),
       reference: docRef,
       deviceId: deviceId,

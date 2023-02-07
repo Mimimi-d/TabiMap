@@ -48,6 +48,7 @@ dependencies:
   device_info_plus: ^7.0.1
   flutter_launcher_icons: ^0.10.0
   nil: ^1.1.1
+  geoflutterfire: ^3.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -32,8 +32,8 @@ class CardEditPage extends ConsumerWidget {
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: LatLng(
-                  mapMarker.position!.latitude, mapMarker.position!.longitude),
+              target: LatLng(mapMarker.position!.geopoint!.latitude,
+                  mapMarker.position!.geopoint!.longitude),
               zoom: 11,
             ),
             padding: EdgeInsets.only(
@@ -42,8 +42,8 @@ class CardEditPage extends ConsumerWidget {
             markers: {
               Marker(
                   markerId: MarkerId(mapMarker.reference!.id.toString()),
-                  position: LatLng(mapMarker.position!.latitude,
-                      mapMarker.position!.longitude))
+                  position: LatLng(mapMarker.position!.geopoint!.latitude,
+                      mapMarker.position!.geopoint!.longitude))
             }.toSet(),
             myLocationEnabled: false,
             myLocationButtonEnabled: false,

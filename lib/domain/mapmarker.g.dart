@@ -7,14 +7,15 @@ part of 'mapmarker.dart';
 // **************************************************************************
 
 _$_MapMarker _$$_MapMarkerFromJson(Map<String, dynamic> json) => _$_MapMarker(
-      position: _$JsonConverterFromJson<GeoPoint, GeoPoint>(
-          json['position'], const GeoPointConverter().fromJson),
       title: json['title'] as String?,
       description: json['description'] as String?,
       starRating: (json['starRating'] as num?)?.toDouble(),
       deviceId: json['deviceId'] as String?,
       createat:
           const TimestampConverter().fromJson(json['createat'] as Timestamp?),
+      position: json['position'] == null
+          ? null
+          : MyGeo.fromJson(json['position'] as Map<String, dynamic>),
       reference: _$JsonConverterFromJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           json['reference'], const DocumentReferenceConverter().fromJson),
@@ -22,13 +23,12 @@ _$_MapMarker _$$_MapMarkerFromJson(Map<String, dynamic> json) => _$_MapMarker(
 
 Map<String, dynamic> _$$_MapMarkerToJson(_$_MapMarker instance) =>
     <String, dynamic>{
-      'position': _$JsonConverterToJson<GeoPoint, GeoPoint>(
-          instance.position, const GeoPointConverter().toJson),
       'title': instance.title,
       'description': instance.description,
       'starRating': instance.starRating,
       'deviceId': instance.deviceId,
       'createat': const TimestampConverter().toJson(instance.createat),
+      'position': instance.position?.toJson(),
       'reference': _$JsonConverterToJson<DocumentReference<Object?>,
               DocumentReference<Object?>>(
           instance.reference, const DocumentReferenceConverter().toJson),
