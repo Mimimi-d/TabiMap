@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:tabimap/provider/add_marker_provider.dart';
@@ -46,7 +47,7 @@ class CardTiles extends ConsumerWidget {
               );
             },
             controller: ref.watch(pageControllerProvider.state).state,
-            children: _tiles(mapMarkerList, markerRepository),
+            children: _tiles(mapMarkerList, markerRepository, context),
           ),
         );
       },
@@ -57,106 +58,112 @@ class CardTiles extends ConsumerWidget {
     );
   }
 
-  List<Widget> _tiles(
-      List<MapMarker> mapMarkerList, MarkerRepository markerRepository) {
+  List<Widget> _tiles(List<MapMarker> mapMarkerList,
+      MarkerRepository markerRepository, BuildContext context) {
     final tiles = mapMarkerList.map(
       (mapMarker) {
-        return Card(
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    markerRepository.deleteMarkerCorrection(mapMarker);
-                  },
+        return InkWell(
+          onTap: () {
+            //　編集画面へj
+            context.push('/edit');
+          },
+          child: Card(
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      markerRepository.deleteMarkerCorrection(mapMarker);
+                    },
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 190,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 24, top: 16),
-                      child: Text(
-                        maxLines: 1,
-                        mapMarker.title.toString(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 24),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          margin:
-                              const EdgeInsets.only(left: 24, top: 4, right: 4),
-                          child: Text(
-                            mapMarker.starRating.toString(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 14),
-                          ),
-                        ),
-                        RatingBar.builder(
-                          initialRating: mapMarker.starRating!,
-                          minRating: 0,
-                          direction: Axis.horizontal,
-                          ignoreGestures: true,
-                          itemSize: 24,
-                          allowHalfRating: true,
-                          itemCount: 5,
-                          itemPadding:
-                              const EdgeInsets.symmetric(horizontal: 1.0),
-                          itemBuilder: (context, _) => const Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          onRatingUpdate: (rating) {},
-                        ),
-                      ],
-                    ),
-                    Center(
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 8),
-                        height: 1,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 24),
-                        child: Text(
-                          maxLines: 2,
-                          mapMarker.description.toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        alignment: Alignment.bottomRight,
-                        margin: const EdgeInsets.only(right: 16, bottom: 16),
+                SizedBox(
+                  height: 190,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 24, top: 16),
                         child: Text(
                           maxLines: 1,
-                          '編集日時:${DateFormat("yyyy/MM/dd HH:mm").format(mapMarker.createat!)}',
+                          mapMarker.title.toString(),
                           style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12,
-                            color: Colors.grey,
+                              fontWeight: FontWeight.bold, fontSize: 24),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 24, top: 4, right: 4),
+                            child: Text(
+                              mapMarker.starRating.toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 14),
+                            ),
+                          ),
+                          RatingBar.builder(
+                            initialRating: mapMarker.starRating!,
+                            minRating: 0,
+                            direction: Axis.horizontal,
+                            ignoreGestures: true,
+                            itemSize: 24,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemPadding:
+                                const EdgeInsets.symmetric(horizontal: 1.0),
+                            itemBuilder: (context, _) => const Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {},
+                          ),
+                        ],
+                      ),
+                      Center(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 8),
+                          height: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 24),
+                          child: Text(
+                            maxLines: 2,
+                            mapMarker.description.toString(),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          alignment: Alignment.bottomRight,
+                          margin: const EdgeInsets.only(right: 16, bottom: 16),
+                          child: Text(
+                            maxLines: 1,
+                            '編集日時:${DateFormat("yyyy/MM/dd HH:mm").format(mapMarker.createat!)}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
