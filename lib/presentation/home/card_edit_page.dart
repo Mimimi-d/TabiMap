@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -159,6 +160,7 @@ class CardEditPage extends ConsumerWidget {
                           ),
                         ),
                         onTap: () {
+                          FirebaseCrashlytics.instance.log("edit done");
                           markerRepository.updateMarkerCorrection(mapMarker);
                           context.pop();
                         },

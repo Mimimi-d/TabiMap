@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -137,6 +138,7 @@ class HomePage extends ConsumerWidget {
                         ),
                       ),
                       onTap: () async {
+                        FirebaseCrashlytics.instance.log("add marker done");
                         await markerRepository
                             .storeMarkerCorrection()
                             .whenComplete(() {
@@ -175,7 +177,10 @@ class HomePage extends ConsumerWidget {
         child: const Icon(
           Icons.add_location_alt,
         ),
-        onPressed: () => addMarker(context, ref),
+        onPressed: () {
+          FirebaseCrashlytics.instance.log("add FAB pressed");
+          addMarker(context, ref);
+        },
       ),
     );
   }
