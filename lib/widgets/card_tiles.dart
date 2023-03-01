@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,6 +52,8 @@ class CardTiles extends ConsumerWidget {
                   child: IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
+                      FirebaseCrashlytics.instance
+                          .log("clear icon button pressed");
                       markerRepository.deleteMarkerCorrection(mapMarker);
                     },
                   ),

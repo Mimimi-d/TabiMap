@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tabimap/domain/mygeo.dart';
@@ -106,16 +106,19 @@ class MarkerRepository {
     );
 
     await docRef.set(marker);
+    FirebaseCrashlytics.instance.log("storeMarkerCorrection done");
   }
 
   void initializeController() {
     titleController.clear();
     titleDescriptionController.clear();
+    FirebaseCrashlytics.instance.log("initializeController done");
   }
 
   Future<void> deleteMarkerCorrection(MapMarker mapMarker) async {
     await markersConverter.doc(mapMarker.reference!.id).delete();
     initializeController();
+    FirebaseCrashlytics.instance.log("deleteMarkerCorrection");
   }
 
   Future<void> updateMarkerCorrection(MapMarker mapMarker) async {
@@ -130,5 +133,6 @@ class MarkerRepository {
       "createat": DateTime.now(),
     });
     initializeController();
+    FirebaseCrashlytics.instance.log("updateMarkerCorrection done");
   }
 }
