@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tabimap/domain/mapmarker.dart';
 import 'package:tabimap/presentation/home/card_edit_page.dart';
+import 'package:tabimap/presentation/starlist/star_list_page.dart';
 
+import '../presentation/bottom_nav.dart';
 import '../presentation/home/home_page.dart';
 import '../presentation/home_page1.dart';
 
@@ -36,20 +38,28 @@ final routerProvider = Provider(
           child: CardEditPage(mapMarker: state.extra! as MapMarker),
         ),
       ),
+      GoRoute(
+        name: 'starlist',
+        path: '/starlist',
+        pageBuilder: (context, state) => MaterialPage(
+          key: state.pageKey,
+          child: const StarListPage(),
+        ),
+      ),
     ],
     // //navigation bar
-    // navigatorBuilder: (context, state, child) {
-    //   return Navigator(
-    //     onPopPage: ((route, result) => false),
-    //     pages: [
-    //       MaterialPage(
-    //         child: BottomNav(
-    //           child: child,
-    //         ),
-    //       )
-    //     ],
-    //   );
-    // },
+    navigatorBuilder: (context, state, child) {
+      return Navigator(
+        onPopPage: ((route, result) => false),
+        pages: [
+          MaterialPage(
+            child: BottomNav(
+              child: child,
+            ),
+          )
+        ],
+      );
+    },
 
     //遷移ページがないなどのエラーが発生した時に、このページに行く
     errorPageBuilder: (context, state) => MaterialPage(
