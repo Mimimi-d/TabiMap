@@ -52,6 +52,22 @@ final markerStreamProvider =
       .where('deviceId', isEqualTo: deviceId)
       .snapshots();
 });
+final starListSteamProvider =
+    StreamProvider<QuerySnapshot<Map<String, dynamic>>>((ref) {
+  late final String deviceId = ref.watch(deviceIdProvider).when(
+        data: (data) {
+          return data;
+        },
+        loading: () => '',
+        error: (err, stack) => 'Error: $err',
+      );
+  return ref
+      .read(firestoreProvider)
+      .collection('markers')
+      .where('deviceId', isEqualTo: deviceId)
+      .orderBy('starRating', descending: true)
+      .snapshots();
+});
 
 /// Marker
 class MarkerRepository {
