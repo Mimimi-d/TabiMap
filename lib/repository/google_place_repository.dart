@@ -9,12 +9,10 @@ final googlePlaceRepositoryProvider = Provider((ref) {
 });
 
 class GooglePlaceRepository {
-  final String apiKey = Const.placeapi_key;
-  final googlePlace = GooglePlace(Const.placeapi_key);
+  final String apiKey = Const.placeapiKey;
+  final googlePlace = GooglePlace(Const.placeapiKey);
   Place? place;
   Future<String?> placeSearch(double lat, double lng) async {
-    print(lat);
-    print(lng);
     final response = await googlePlace.search.getNearBySearch(
         Location(lat: lat, lng: lng), 5000,
         rankby: RankBy.Distance, language: 'ja');
@@ -30,7 +28,6 @@ class GooglePlaceRepository {
           "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$photoRef&key=$apiKey",
           firstResponse.placeId);
     } else {
-      print('null');
       place = Place('', '', '');
     }
     return place?.photoReference;

@@ -3,15 +3,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tabimap/repository/marker_repository.dart';
 
-import '../../repository/google_place_repository.dart';
-
 class StarListPage extends ConsumerWidget {
   const StarListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncStarList = ref.watch(starListSteamProvider);
-    final place = ref.watch(googlePlaceRepositoryProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('TabiMap'),
@@ -81,7 +78,6 @@ class StarListPage extends ConsumerWidget {
           );
         },
         error: (e, stackTrace) {
-          print(e.toString());
           return Text('error: $e');
         },
         loading: CircularProgressIndicator.new,
