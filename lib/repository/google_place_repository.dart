@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_place/google_place.dart';
-// ignore: undefined_identifier
+
+// ignore: uri_does_not_exist
 import '../const.dart';
 import '../domain/place.dart';
 
