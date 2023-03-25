@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_place/google_place.dart';
-
+// ignore: undefined_identifier
 import '../const.dart';
 import '../domain/place.dart';
 
@@ -9,7 +9,9 @@ final googlePlaceRepositoryProvider = Provider((ref) {
 });
 
 class GooglePlaceRepository {
+  // ignore: undefined_identifier
   final String apiKey = Const.placeapiKey;
+  // ignore: undefined_identifier
   final googlePlace = GooglePlace(Const.placeapiKey);
   Place? place;
   Future<String?> placeSearch(double lat, double lng) async {
