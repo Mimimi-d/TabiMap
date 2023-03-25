@@ -69,3 +69,4 @@ ios/Podfile.lock
 
 .vscode
 .fvm
+const.dart

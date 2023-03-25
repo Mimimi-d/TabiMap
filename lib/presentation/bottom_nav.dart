@@ -33,7 +33,7 @@ class _BottomNavState extends ConsumerState<BottomNav> {
               context.go('/');
               break;
             case 1:
-              context.go('/home1');
+              context.go('/starlist');
               break;
           }
         },
